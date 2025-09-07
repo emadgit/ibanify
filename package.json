@@ -1,0 +1,39 @@
+{
+  "name": "@emaddehnavi/iban-tools",
+  "version": "0.1.6",
+  "description": "IBAN validation library",
+  "author": {
+    "name": "Emad Dehnavi",
+    "url": "https://emaddehnavi.com/"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --minify --out-dir dist",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "iban",
+    "typescript",
+    "library"
+  ],
+  "repository": "https://github.com/emadgit/ibanify",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2"
+  }
+}
