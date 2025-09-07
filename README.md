@@ -1,6 +1,6 @@
 # ibanify ( iban-tools )
 
-![iban-tools Banner](https://github.com/emadgit/iban-tools/blob/main/pics/iban-tools.png)
+![iban-tools Banner](https://github.com/emadgit/ibanify/blob/main/pics/iban-tools.png)
 
 A tiny TypeScript library for working with IBANs.
 
