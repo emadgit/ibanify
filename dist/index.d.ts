@@ -17,5 +17,16 @@ declare function formatIban(iban: string, options?: {
 }): string;
 /** Return the 2-letter country code if shape/length match after normalization; otherwise null. */
 declare function getIbanCountry(iban: string): string | null;
+/**
+ * Centralized metadata for an IBAN.
+ * - Normalizes input
+ * - Validates basic shape and official length for the country
+ * - Returns country, expected length, and SEPA membership flag
+ */
+declare function getIbanMetadata(iban: string): {
+    country: string;
+    length: number;
+    sepa: boolean;
+} | null;
 
-export { formatIban, getIbanCountry, isValidIban, isValidIbanTolerant, normalizeIban, version };
+export { formatIban, getIbanCountry, getIbanMetadata, isValidIban, isValidIbanTolerant, normalizeIban, version };
