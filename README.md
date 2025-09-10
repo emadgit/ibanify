@@ -1,4 +1,4 @@
-# ibanify ( iban-tools )
+# iban-tools
 
 ![iban-tools Banner](https://github.com/emadgit/ibanify/blob/main/pics/iban-tools.png)
 
@@ -18,6 +18,14 @@ A tiny TypeScript library for working with IBANs.
   - `isValidIbanTolerant` to validate *after* normalization
   - `formatIban` to pretty-print in groups (default 4)
   - `getIbanCountry` to read the ISO country code safely
+- **Metadata access**
+  - `getIbanMetadata` returns `{ country, length, sepa }`
+    - `country`: ISO 3166 alpha-2 code
+    - `length`: official IBAN length for that country
+    - `sepa`: whether the country/territory is part of the **SEPA** (Single Euro Payments Area)
+- **Check digit calculation**
+  - `computeCheckDigits(country, bban)` returns the correct 2-digit IBAN check digits
+  - Useful for constructing valid IBANs programmatically or verifying BBAN → IBAN conversion
 - Lightweight, zero dependencies
 
 ## Installation
@@ -80,6 +88,30 @@ console.log(getIbanCountry("DE89 3704 0044 0532 0130 00")); // "DE"
 console.log(getIbanCountry("XX12 3456")); // null
 ```
 
+### 6) Metadata access
+```ts
+import { getIbanMetadata } from "@emaddehnavi/iban-tools";
+
+console.log(getIbanMetadata("DE89 3704 0044 0532 0130 00")); // -> { country: "DE", length: 22, sepa: true }
+console.log(getIbanMetadata("TR330006100519786457841326")); // -> { country: "TR", length: 26, sepa: false }
+```
+
+
+### 7) Check digit calculation
+```ts
+import { computeCheckDigits, isValidIban } from "@emaddehnavi/iban-tools";
+
+const bban = "370400440532013000";
+const country = "DE";
+const checkDigits = computeCheckDigits(country, bban);
+
+console.log(checkDigits); // "89"
+
+const iban = `${country}${checkDigits}${bban}`;
+console.log(iban);             // "DE89370400440532013000"
+console.log(isValidIban(iban)); // true
+```
+
 ## API
 
 - `isValidIban(iban: string): boolean` — strict validator (ASCII uppercase, exact length, mod-97).
@@ -87,6 +119,8 @@ console.log(getIbanCountry("XX12 3456")); // null
 - `normalizeIban(input: string): string` — canonicalize to `A–Z0–9`.
 - `formatIban(iban: string, opts?: { groupSize?: number; validate?: boolean }): string` — pretty print; validates by default.
 - `getIbanCountry(iban: string): string | null` — two-letter country code if length & shape match.
+- `getIbanMetadata(iban: string): { country: string; length: number; sepa: boolean } | null` — returns metadata including country code, official IBAN length, and SEPA membership.
+- `computeCheckDigits(country: string, bban: string): string` — compute the two check digits for a given country + BBAN, per ISO 13616. Useful for constructing valid IBANs.
 
 ## License
 

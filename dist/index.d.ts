@@ -28,5 +28,16 @@ declare function getIbanMetadata(iban: string): {
     length: number;
     sepa: boolean;
 } | null;
+/**
+ * Compute the IBAN check digits for a given country + BBAN.
+ *
+ * @param country ISO 3166 alpha-2 country code (uppercase A–Z).
+ * @param bban Basic Bank Account Number (country-specific, uppercase letters + digits).
+ * @returns Two-digit check digits as a string, e.g. "89".
+ *
+ * Example:
+ *   computeCheckDigits("DE", "370400440532013000") -> "89"
+ */
+declare function computeCheckDigits(country: string, bban: string): string;
 
-export { formatIban, getIbanCountry, getIbanMetadata, isValidIban, isValidIbanTolerant, normalizeIban, version };
+export { computeCheckDigits, formatIban, getIbanCountry, getIbanMetadata, isValidIban, isValidIbanTolerant, normalizeIban, version };
